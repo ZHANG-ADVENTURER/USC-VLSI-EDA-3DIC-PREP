@@ -1,0 +1,50 @@
+## Topic
+
+Today's topic: Basic Verilog simulation workflow using a 2-input AND gate.
+
+## What I Learned
+
+* I learned how to write a simple Verilog RTL module for a 2-input AND gate.
+* I learned how to write a testbench to apply input stimulus and verify the output behavior.
+* I learned how to compile Verilog files with Icarus Verilog, run simulation with `vvp`, and inspect the waveform using GTKWave.
+
+## What I Built / Produced
+
+* Code: `01_verilog_basics/01_basic_gates/sourcecode/and_gate.v`
+* Testbench: `01_verilog_basics/01_basic_gates/testbench/and_gate_tb.v`
+* Waveform: `01_verilog_basics/01_basic_gates/waveforms/and_gate.vcd`
+* Notes: Daily note for Day 1 Verilog simulation workflow
+* README: `01_verilog_basics/01_basic_gates/README.md`
+
+## Key Concepts
+
+| RTL module   | A Verilog module describes the hardware behavior or structure of a digital circuit. In this project, `and_gate.v` describes a simple AND logic circuit. |
+| Testbench    | A testbench is not hardware. It is a simulation environment used to provide inputs, observe outputs, and verify whether the RTL module works correctly. |
+| VCD waveform | A VCD file records signal changes during simulation. It can be opened in GTKWave to visually check whether the circuit behaves correctly over time.     |
+| AND gate     | An AND gate outputs 1 only when both inputs are 1.    |
+
+## Problems and Fixes
+
+* Problem: I initially used the wrong folder paths in the terminal command, such as `src/`, `tb/`, and `sim/`, but my actual folders were named `sourcecode/`, `testbench/`, and `simulation/`.
+* Fix: I changed the compile command to match my actual folder structure:
+
+```powershell
+iverilog -o simulation/and_gate_tb.vvp sourcecode/and_gate.v testbench/and_gate_tb.v vvp simulation/and_gate_tb.vvp gtkwave waveforms/and_gate.vcd
+```
+
+* Problem: In GTKWave, the waveform first looked unchanged because the time scale was zoomed in too much.
+* Fix: I zoomed out to view the full 0–40 ns simulation window and confirmed the signal transitions.
+
+## Connection to VLSI / EDA / 3D IC
+
+This topic matters for VLSI and EDA because RTL design and simulation are the starting points of the digital IC design flow. Before a design can move to synthesis, physical design, timing analysis, or layout implementation, the RTL behavior must first be verified through simulation. This exercise helped me understand the basic workflow from Verilog source code to testbench, simulation, waveform generation, and verification.
+
+Although this example is only a simple AND gate, the same workflow will be used later for more complex modules such as multiplexers, adders, ALUs, counters, FSMs, and FIFOs. Building this foundation is necessary before moving toward RTL-to-GDS flow, physical design, STA, and EDA tool practice.
+
+## One Sentence Summary
+
+Today I learned how to write, simulate, and verify a basic Verilog AND gate using VS Code, Icarus Verilog, `vvp`, and GTKWave.
+
+## Next Step
+
+* Continue to Day 2 by writing and simulating basic combinational logic modules such as a 2-to-1 multiplexer, 2-to-4 decoder, and full adder.

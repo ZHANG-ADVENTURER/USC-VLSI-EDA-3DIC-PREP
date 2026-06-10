@@ -38,13 +38,3 @@ Test cases:
 Waveform file: `waves/example_waveform.png`
 
 Explain what the waveform shows.
-
-## What I Learned
-
-- 
-- 
-- 
-
-## Why This Matters
-
-Explain how this project connects to RTL design, digital IC design, Physical Design, STA, or ASIC learning.
