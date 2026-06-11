@@ -10,6 +10,8 @@ The output `y` is high only when both inputs `a` and `b` are high.
 
 ```text
 01_basic_gates/
+  HDLBits
+    Basics.png
   sourcecode/
     and_gate.v
   testbench/

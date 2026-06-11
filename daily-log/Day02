@@ -1,0 +1,122 @@
+## Topic
+
+HDLBits Verilog Basics: Basic Gates, Declaring Wires, and the 7458 Chip
+
+## What I Learned
+
+* I practiced the basic structure of a Verilog module, including `module`, input/output ports, `assign`, `wire`, and `endmodule`.
+* I learned how to describe simple combinational logic using Verilog operators such as `&`, `|`, `~`, and `^~`.
+* I understood that `assign` is used for continuous assignment in combinational logic.
+* I learned that `wire` represents a signal connection between logic components, not a storage element.
+* I practiced declaring internal wires to break a complex logic expression into smaller and clearer parts.
+* I learned how to read a gate-level diagram and translate it into Verilog code.
+* I completed the HDLBits 7458 chip problem, which combines multiple AND gates and OR gates into two output signals.
+
+## What I Built / Produced
+
+* Code:
+
+Today I completed several HDLBits Verilog Basics exercises. These exercises covered simple wires, multiple wires, inverter logic, basic gates, declaring internal wires, and the 7458 chip.
+
+* HDLBits Exercises:
+
+I completed and passed multiple HDLBits problems in the Verilog Basics section, including the 7458 chip problem. The 7458 problem required me to describe a circuit with multiple AND gates and OR gates using Verilog.
+
+* Testbench:
+
+I did not write a separate local testbench today because HDLBits provided hidden testbenches for automatic verification.
+
+* Waveform:
+
+No local GTKWave waveform was generated today. The main verification method was the HDLBits online checker.
+
+* Notes:
+
+Today’s work focused on understanding how basic digital logic can be written in Verilog. I practiced both short direct assignments and clearer versions using intermediate wires. I also learned that meaningful internal wire names can make a circuit easier to read and debug.
+
+* README:
+
+This work should be recorded under the Verilog basics section of my GitHub repository. The main result of today’s practice is that I became more comfortable translating simple logic diagrams into synthesizable Verilog code.
+
+## Key Concepts
+
+* `module`
+  The basic building block in Verilog. It defines a circuit block with inputs and outputs.
+
+* `input`
+  A signal that enters the module from outside.
+
+* `output`
+  A signal produced by the module and sent outside.
+
+* `wire`
+  A connection signal used to carry values between pieces of logic. It does not store data.
+
+* `assign`
+  A continuous assignment statement used to describe combinational logic.
+
+* Combinational logic
+  Logic where the output depends only on the current input values.
+
+* AND gate `&`
+  Produces 1 only when all required inputs are 1.
+
+* OR gate `|`
+  Produces 1 when at least one input is 1.
+
+* NOT gate `~`
+  Inverts a signal from 0 to 1 or from 1 to 0.
+
+* XNOR gate `^~`
+  Produces 1 when two inputs are the same.
+
+* Intermediate wire
+  An internal signal used to divide a larger expression into smaller, more readable parts.
+
+* 7458 chip
+  A digital logic chip made from multiple AND gates and OR gates. In HDLBits, it is used to practice translating a chip diagram into Verilog.
+
+
+## Problems and Fixes
+
+* Problem:
+
+At first, I was not fully sure when I should use intermediate `wire` signals instead of writing one long `assign` expression.
+
+* Fix:
+
+I learned that both methods can be correct. A direct `assign` expression is shorter, but intermediate wires make the logic easier to understand, especially when the circuit diagram has multiple gates.
+
+* Problem:
+
+I was unsure how to name internal wires clearly.
+
+* Fix:
+
+I learned that wire names should describe their role in the circuit. For example, names like `p1abc_and`, `p1def_and`, `p2ab_and`, and `p2dc_and` are clearer than random names like `w1`, `w2`, or `temp`.
+
+* Problem:
+
+I was still confused about whether Verilog code is only software code or whether it represents real hardware.
+
+* Fix:
+
+I learned that Verilog describes hardware behavior and structure. For example, an `assign` statement with `&` and `|` can later be synthesized into real AND gates and OR gates.
+
+## Connection to VLSI / EDA / 3D IC
+
+Today’s work is directly connected to the front-end part of the digital IC design flow. Verilog is used to describe digital hardware at the RTL or gate level. Even simple HDLBits exercises are useful because they build the foundation for understanding how larger digital systems are written, simulated, and eventually synthesized into real circuits.
+
+In VLSI design, clear Verilog code is important because EDA tools use it as the input for synthesis. The synthesis tool converts Verilog logic into standard cells such as AND gates, OR gates, inverters, multiplexers, and flip-flops. After synthesis, the design can move into physical design, where those cells are placed and routed on silicon.
+
+This also connects to STA because every gate and wire creates delay. Even a simple circuit like the 7458 chip has signal paths from inputs, through logic gates, to outputs. In larger chips, understanding these paths is necessary for timing analysis and optimization.
+
+For 3D IC and advanced packaging, digital logic blocks may eventually be integrated with other dies or connected through advanced interconnects such as TSVs. Although today’s circuits are simple, the basic idea is the same: hardware behavior must first be described correctly before it can be implemented physically.
+
+## One Sentence Summary
+
+Today I practiced HDLBits Verilog basics and learned how to describe simple combinational logic, declare internal wires, and translate the 7458 gate-level diagram into Verilog.
+
+## Next Step
+
+* Continue the HDLBits Verilog Basics section and start practicing vector signals, because real digital circuits usually use multi-bit buses instead of only single-bit wires.
