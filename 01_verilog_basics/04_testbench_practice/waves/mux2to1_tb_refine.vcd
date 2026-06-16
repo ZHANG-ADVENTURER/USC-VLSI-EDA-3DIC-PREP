@@ -1,0 +1,66 @@
+$date
+	Tue Jun 16 20:51:02 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module mux2to1_tb_refine $end
+$var wire 1 ! y $end
+$var reg 1 " a $end
+$var reg 1 # b $end
+$var reg 1 $ expected_y $end
+$var reg 1 % sel $end
+$scope module dut $end
+$var wire 1 " a $end
+$var wire 1 # b $end
+$var wire 1 % sel $end
+$var wire 1 ! y $end
+$upscope $end
+$scope task run_test $end
+$var reg 1 & exp_y $end
+$var reg 1 ' test_a $end
+$var reg 1 ( test_b $end
+$var reg 1 ) test_sel $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+1)
+0(
+0'
+0&
+1%
+0$
+0#
+0"
+0!
+$end
+#10000
+1!
+1$
+1"
+1&
+1'
+#20000
+0%
+1#
+0"
+0)
+1(
+0'
+#30000
+0!
+0$
+0#
+1"
+0&
+0(
+1'
+#40000

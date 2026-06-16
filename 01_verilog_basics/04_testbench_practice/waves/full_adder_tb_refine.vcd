@@ -1,0 +1,105 @@
+$date
+	Tue Jun 16 21:43:22 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module full_adder_tb_refine $end
+$var wire 1 ! sum $end
+$var wire 1 " cout $end
+$var reg 1 # a $end
+$var reg 1 $ b $end
+$var reg 1 % cin $end
+$var reg 1 & expected_cout $end
+$var reg 1 ' expected_sum $end
+$scope module dut $end
+$var wire 1 # a $end
+$var wire 1 $ b $end
+$var wire 1 % cin $end
+$var wire 1 " cout $end
+$var wire 1 ! sum $end
+$upscope $end
+$scope task run_test $end
+$var reg 1 ( exp_cout $end
+$var reg 1 ) exp_sum $end
+$var reg 1 * test_a $end
+$var reg 1 + test_b $end
+$var reg 1 , test_cin $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+0,
+0+
+0*
+0)
+0(
+0'
+0&
+0%
+0$
+0#
+0"
+0!
+$end
+#10000
+1!
+1'
+1%
+1)
+1,
+#20000
+0%
+1$
+0,
+1+
+#30000
+1"
+0!
+1&
+0'
+1%
+1(
+0)
+1,
+#40000
+0"
+1!
+0&
+1'
+0%
+0$
+1#
+0(
+1)
+0,
+0+
+1*
+#50000
+1"
+0!
+1&
+0'
+1%
+1(
+0)
+1,
+#60000
+0%
+1$
+0,
+1+
+#70000
+1!
+1'
+1%
+1)
+1,
+#80000
