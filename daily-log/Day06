@@ -1,0 +1,95 @@
+## Topic
+
+Today's topic: Verilog vector operations — concatenation, bit reversal, replication, sign extension, and pairwise bit comparison.
+
+## What I Learned
+
+- I learned how to use the concatenation operator `{}` to combine multiple smaller vectors into one larger vector.
+- I learned that concatenation can be used on both the right side and the left side of an `assign` statement.
+- I learned how to split a large vector into several smaller output vectors by writing the outputs together on the left side.
+- I learned that Verilog does not allow reversing a vector by writing something like `in[0:7]`.
+- I learned how to reverse bit order manually using concatenation.
+- I learned how to use the replication operator `{num{vector}}` to repeat a bit or vector multiple times.
+- I learned how sign extension works: the sign bit should be copied to the higher bits to preserve the signed value.
+- I learned how to use replication and concatenation together to build larger comparison vectors more efficiently.
+
+## What I Built / Produced
+
+- Code:
+  - Completed vector concatenation practice.
+  - Practiced splitting a 32-bit concatenated result into four 8-bit outputs.
+  - Practiced reversing an 8-bit input vector.
+  - Practiced extending an 8-bit value to 32 bits using sign extension.
+  - Practiced building a 25-bit pairwise comparison result using replication and XNOR logic.
+
+- Testbench:
+  - No separate local testbench was written today because the HDLBits platform provided automatic checking.
+
+- Waveform:
+  - No local waveform was generated today because the focus was HDLBits vector syntax and combinational assignments.
+
+- Notes:
+  - The most important syntax today was `{}`.
+  - `{a, b, c}` means concatenate `a`, `b`, and `c`.
+  - `{4{in[7]}}` means repeat `in[7]` four times.
+  - `{out1, out2}` on the left side can be used to split a larger right-side vector into smaller outputs.
+
+- README:
+  - No project README update was needed today unless these HDLBits exercises are later organized into a GitHub practice folder.
+
+## Key Concepts
+
+Concatenation  
+Combines several signals or vectors into one larger vector. For example, `{a, b, c}` places `a` in the higher bits, then `b`, then `c`.
+
+Left-side concatenation  
+Allows one large vector to be split into multiple output signals. For example, `{w, x, y, z} = big_vector;` assigns different parts of `big_vector` to `w`, `x`, `y`, and `z`.
+
+Bit ordering  
+Verilog vector ranges cannot be flipped directly. `in[7:0]` is valid, but `in[0:7]` does not reverse the vector. To reverse bits, each bit must be explicitly rearranged with concatenation.
+
+Replication operator  
+Repeats a bit or vector multiple times. The format is `{num{vector}}`. For example, `{24{in[7]}}` repeats the sign bit 24 times.
+
+Sign extension  
+Extends a smaller signed number to a larger width by copying the most significant bit into the new upper bits. This keeps the signed value correct.
+
+XNOR comparison  
+XNOR returns `1` when two bits are equal and `0` when they are different. This is useful for pairwise equality comparison.
+
+## Problems and Fixes
+
+- Problem:
+  I initially thought vector outputs had to be manually split into separate pieces.
+
+- Fix:
+  I learned that Verilog can split the result automatically by using left-side concatenation, such as:
+  `{w, x, y, z} = {a, b, c, d, e, f, 2'b11};`
+
+- Problem:
+  I thought reversing a vector might be possible with `in[0:7]`.
+
+- Fix:
+  I learned that Verilog does not allow reversed part-select ordering in this form. The correct method is to manually concatenate the bits in reverse order.
+
+- Problem:
+  The replication operator looked confusing because it uses two layers of braces.
+
+- Fix:
+  I learned that the outer braces mean concatenation, and the inner braces mean repetition. For example, `{24{in[7]}}` means repeat `in[7]` 24 times.
+
+## Connection to VLSI / EDA / 3D IC
+
+Vector operations are important in digital design because real hardware often handles buses instead of single wires. Data paths, ALUs, registers, memory interfaces, and control signals all use multi-bit vectors.
+
+Concatenation and replication are especially useful in RTL design because they allow engineers to describe bit-level hardware clearly and compactly. Sign extension is also common in processors, arithmetic units, and instruction decoding.
+
+For EDA and VLSI, writing compact and correct RTL matters because synthesis tools translate this Verilog code into actual gates. A small mistake in bit ordering or vector width can create incorrect hardware, timing problems, or verification failures later in the design flow.
+
+## One Sentence Summary
+
+Today I learned how to manipulate Verilog vectors more efficiently using concatenation, bit reversal, replication, sign extension, and pairwise comparison logic.
+
+## Next Step
+
+- Continue HDLBits vector exercises and then move toward module hierarchy practice.

@@ -23,7 +23,7 @@ The main focus of this section is learning how to describe simple digital logic 
 
 ## Completed Work
 
-### Day 1: Local AND Gate Project
+### Local AND Gate Project
 
 I built a basic 2-input AND gate in Verilog.
 
@@ -38,7 +38,7 @@ This part included:
 * GTKWave waveform viewing
 * A saved waveform screenshot
 
-### Day 2: HDLBits Verilog Basics Practice
+### HDLBits Verilog Basics Practice
 
 I completed several HDLBits exercises in the Verilog Basics section.
 
