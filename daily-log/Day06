@@ -34,8 +34,6 @@ Today's topic: Verilog vector operations — concatenation, bit reversal, replic
   - `{4{in[7]}}` means repeat `in[7]` four times.
   - `{out1, out2}` on the left side can be used to split a larger right-side vector into smaller outputs.
 
-- README:
-  - No project README update was needed today unless these HDLBits exercises are later organized into a GitHub practice folder.
 
 ## Key Concepts
 
