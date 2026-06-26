@@ -26,7 +26,7 @@ task check_count;
     begin
         expected_count = exp_count;
 
-        #1
+        #1;
 
         if (count == expected_count) begin
             $display("pass | %s | time=%0t | reset=%b | en=%b | count=%b | expected_count=%b",
