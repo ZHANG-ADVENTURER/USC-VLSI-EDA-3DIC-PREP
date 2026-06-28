@@ -1,4 +1,4 @@
-# Day 3: 4-bit ALU and Vector Practice
+# 4-bit ALU and Vector Practice
 
 ## Overview
 
