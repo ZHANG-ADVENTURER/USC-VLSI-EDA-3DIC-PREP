@@ -2,7 +2,7 @@
 
 ## Topic
 
-Simple FIFO RTL and Self-Checking Testbench
+Simple FIFO RTL
 
 ## What I Learned
 
@@ -41,7 +41,7 @@ I also built a self-checking testbench that automatically verifies FIFO behavior
   - `waves/simple_fifo.vcd`
 
 - Notes:
-  - Continued using `notes/fifo-notes.md` from Day11
+  - Continued using `notes/fifo-notes.md` from Day12
 
 - README:
   - `README.md`
@@ -131,10 +131,46 @@ This is stronger than only looking at a waveform because the testbench directly 
 ## Problems and Fixes
 
 - Problem:
-  I initially noticed that a basic testbench framework was not enough for verification.
+  I was not fully sure how to decide which signals should be module ports and which signals should stay inside the RTL source file as internal signals.
 
 - Fix:
-  I changed the testbench into a self-checking style similar to the previous sequence detector testbench. The final testbench uses tasks to write data, read data, check expected values, and print `pass` messages.
+  I learned that ports are the interface between the module and the outside world. If a signal is given by the outside, it should be an input port. If a signal needs to be observed by the outside, it should be an output port. Signals that are only used to implement the module internally should remain internal signals.
+
+  In the FIFO design, `clk`, `reset`, `write_en`, `read_en`, and `data_in` are input ports because they are controlled by the testbench or an external module. `data_out`, `full`, and `empty` are output ports because the outside needs to observe them. In contrast, `mem`, `write_ptr`, `read_ptr`, `count`, `valid_write`, and `valid_read` are internal signals because they are only used to implement the FIFO behavior.
+
+- Problem:
+  I was unsure whether I should write the internal RTL logic first and then go back to declare missing signals.
+
+- Fix:
+  I learned that a better RTL design flow is to decide the module interface first, then decide the internal storage and internal combinational signals, and finally write the logic. Small missing declarations can still be fixed during debugging, but the main design should start from the interface and hardware structure rather than from random logic code.
+
+  A useful design order is:
+
+  1. Define what the module should do.
+  2. Decide the input and output ports.
+  3. Decide what the module needs to remember internally.
+  4. Decide what the module needs to calculate immediately.
+  5. Write sequential logic and combinational logic separately.
+
+- Problem:
+  I knew the rule that clocked logic usually uses `<=` and combinational logic usually uses `=`, but I still had difficulty quickly deciding whether a piece of logic is sequential or combinational.
+
+- Fix:
+  I learned to classify signals by hardware meaning instead of only looking at syntax. If a signal needs to remember previous information, it is storage/state and should be updated in `always @(posedge clk)` using non-blocking assignment `<=`. If a signal is only calculated from current values, it is combinational logic and should use `assign` or `always @(*)` with blocking assignment `=`.
+
+  In the FIFO design, `mem`, `write_ptr`, `read_ptr`, `count`, and `data_out` are sequential because they store data or state across clock cycles. `full`, `empty`, `valid_write`, and `valid_read` are combinational because they are immediately calculated from current values.
+
+- Problem:
+  I confused “a signal staying the same” with “a signal having memory.”
+
+- Fix:
+  I learned that a combinational signal can stay the same if its inputs stay the same, but that does not mean it is storing memory. For example, in an FSM, `next_state` may remain `S_1` if `current_state` and `bit_in` do not change, but `next_state` is still only a combinational calculation. The signal that actually stores the FSM state is `current_state`, because it only updates on the clock edge.
+
+  A useful way to remember this is:
+
+  `next_state` is the calculated destination.
+
+  `current_state` is the stored state.
 
 - Problem:
   The FIFO testbench needed to verify not only basic write and read behavior, but also full and empty behavior.
@@ -143,10 +179,10 @@ This is stronger than only looking at a waveform because the testbench directly 
   I added test cases for reset, normal write/read, filling the FIFO, overflow attempt, reading all stored data, and underflow attempt.
 
 - Problem:
-  Overflow behavior could be misunderstood as writing a new value into memory.
+  Waveform inspection was not necessary for final verification today.
 
 - Fix:
-  I verified that after attempting to write `8'h55` when the FIFO was full, the FIFO still read out the original values `8'h11`, `8'h22`, `8'h33`, and `8'h44`.
+  I still generated the `.vcd` waveform file, but used terminal-based self-checking output as the main verification evidence.
 
 ## Connection to VLSI / EDA / 3D IC
 
@@ -164,4 +200,4 @@ Today I implemented and verified a simple single-clock FIFO, learning how memory
 
 ## Next Step
 
-Continue to Day13: SystemVerilog awareness, focusing on `logic`, `always_comb`, `always_ff`, and the difference between Verilog and SystemVerilog coding style.
+Continue to Day14: SystemVerilog awareness, focusing on `logic`, `always_comb`, `always_ff`, and the difference between Verilog and SystemVerilog coding style.

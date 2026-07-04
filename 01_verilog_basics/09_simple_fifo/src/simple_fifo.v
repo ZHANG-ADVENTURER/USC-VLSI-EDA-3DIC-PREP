@@ -25,13 +25,14 @@ module simple_fifo (
     assign valid_write = write_en && !full;
     assign valid_read  = read_en && !empty;
 
-        always @(posedge clk) begin
+    always @(posedge clk) begin
         if (reset) begin
             write_ptr <= 2'b00;
             read_ptr  <= 2'b00;
             count     <= 3'b000;
             data_out  <= 8'b00000000;
         end
+        
         else begin
             if (valid_write) begin
                 mem[write_ptr] <= data_in;
