@@ -1302,7 +1302,7 @@ Electromigration, abbreviated as EM, is the gradual movement of metal atoms caus
 
 Unlike antenna damage, EM occurs during long-term normal operation.
 
-```text id="8k0zls"
+```
 High Current Density
 → Metal-Atom Movement
 → Wire or Via Degradation
