@@ -70,23 +70,9 @@ Signoff STA verifies setup and hold timing using:
 
 The basic timing metrics are:
 
-[
-\text{Setup Slack}
-==================
+`Setup Slack = Required Time - Arrival Time`
 
-## \text{Required Time}
-
-\text{Arrival Time}
-]
-
-[
-\text{Hold Slack}
-=================
-
-## \text{Arrival Time}
-
-\text{Minimum Required Time}
-]
+`Hold Slack = Arrival Time - Minimum Required Time`
 
 WNS is the worst path slack, while TNS is the sum of all negative path slacks.
 
@@ -107,12 +93,7 @@ Plasma processing may cause exposed metal to collect charge. If the metal is con
 
 A simplified antenna ratio is:
 
-[
-\text{Antenna Ratio}
-\approx
-\frac{\text{Exposed Metal Area}}
-{\text{Gate Area}}
-]
+`Antenna Ratio ≈ Exposed Metal Area / Gate Area`
 
 Common fixes include:
 
@@ -123,9 +104,7 @@ Common fixes include:
 
 I learned that electromigration is a long-term reliability problem caused by excessive current density.
 
-[
-J=\frac{I}{A}
-]
+`J = I / A`
 
 A smaller wire cross-sectional area creates higher current density for the same current.
 
@@ -147,9 +126,7 @@ I learned the difference between IR drop and electromigration:
 
 Static IR-drop analysis uses average or steady-state current:
 
-[
-V_{\text{drop}}=IR
-]
+`V_drop = I × R`
 
 Dynamic IR-drop analysis evaluates transient current spikes caused by simultaneous switching.
 
@@ -159,9 +136,7 @@ Decoupling capacitors store electrical charge near active logic. During a curren
 
 I learned that package and PDN inductance create voltage disturbances according to:
 
-[
-V_L=L\frac{dI}{dt}
-]
+`V_L = L × (dI/dt)`
 
 This depends on the rate of change of current, not voltage.
 
@@ -178,14 +153,7 @@ Power integrity is broader than IR drop. It includes:
 
 The effective voltage across a cell is:
 
-[
-V_{\text{effective}}
-====================
-
-## V_{\text{DD,local}}
-
-V_{\text{SS,local}}
-]
+`V_effective = local VDD - local VSS`
 
 I learned that metal-density rules are checked using local sliding windows because a valid whole-chip average may hide local sparse or dense regions.
 
@@ -376,23 +344,17 @@ The correct term is electrical charge. A decap stores charge and temporarily sup
 
 I wrote:
 
-[
-V=L\frac{dV}{dt}
-]
+`V = L × (dV/dt)`
 
 Fix:
 
 The correct inductor relationship is:
 
-[
-V_L=L\frac{dI}{dt}
-]
+`V_L = L × (dI/dt)`
 
 The capacitor relationship is:
 
-[
-I_C=C\frac{dV}{dt}
-]
+`I_C = C × (dV/dt)`
 
 ### Problem 5: Assumed high-density regions automatically have higher resistance
 
