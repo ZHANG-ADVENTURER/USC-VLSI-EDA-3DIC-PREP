@@ -239,16 +239,14 @@ Primary extracted parasitics include:
 
 Wire resistance is approximately:
 
-[
-R=\rho\frac{L}{A}
-]
+`R = ρ × L / A`
 
 where:
 
-* (R) is resistance
-* (\rho) is resistivity
-* (L) is wire length
-* (A) is cross-sectional area
+* `R` is resistance
+* `ρ` is resistivity
+* `L` is wire length
+* `A` is cross-sectional area
 
 Longer wires have greater resistance. Wider or thicker wires generally have lower resistance.
 
@@ -314,14 +312,7 @@ Typical inputs include:
 
 Setup timing verifies that data reaches the capture register early enough before the capture edge.
 
-[
-\text{Setup Slack}
-==================
-
-## \text{Required Time}
-
-\text{Arrival Time}
-]
+`Setup Slack = Required Time - Arrival Time`
 
 * Positive slack: pass
 * Zero slack: exactly at the limit
@@ -333,14 +324,7 @@ Hold timing verifies that new data does not reach the capture register too early
 
 A simplified expression is:
 
-[
-\text{Hold Slack}
-=================
-
-## \text{Arrival Time}
-
-\text{Minimum Required Time}
-]
+`Hold Slack = Arrival Time - Minimum Required Time`
 
 Negative hold slack indicates a hold violation.
 
@@ -445,12 +429,7 @@ The vulnerable structure is:
 
 A simplified antenna ratio is:
 
-[
-\text{Antenna Ratio}
-\approx
-\frac{\text{Exposed Metal Area}}
-{\text{Gate Area}}
-]
+`Antenna Ratio ≈ Exposed Metal Area / Gate Area`
 
 Common antenna fixes include:
 
@@ -478,15 +457,13 @@ Electromigration, or EM, is the gradual movement of metal atoms caused by excess
 
 Current density is:
 
-[
-J=\frac{I}{A}
-]
+`J = I / A`
 
 where:
 
-* (J) is current density
-* (I) is current
-* (A) is conductor cross-sectional area
+* `J` is current density
+* `I` is current
+* `A` is conductor cross-sectional area
 
 If the area is reduced by half while current remains constant, current density doubles.
 
@@ -526,20 +503,11 @@ Redundant vias distribute current among multiple conductive paths. They reduce c
 
 IR drop is the voltage loss caused by current flowing through power-network resistance.
 
-[
-V_{\text{drop}}=IR
-]
+`V_drop = I × R`
 
 The voltage reaching a cell is approximately:
 
-[
-V_{\text{cell}}
-===============
-
-## V_{\text{supply}}
-
-V_{\text{drop}}
-]
+`V_cell = V_supply - V_drop`
 
 Static IR-drop analysis uses average or steady-state current.
 
@@ -576,15 +544,11 @@ A block may pass static IR-drop analysis but fail dynamic analysis because:
 
 Dynamic power is approximately:
 
-[
-P_{\text{dynamic}}=\alpha CV^2f
-]
+`P_dynamic = α × C × V² × f`
 
 Package and PDN inductance also contribute transient voltage disturbance:
 
-[
-V_L=L\frac{dI}{dt}
-]
+`V_L = L × (dI/dt)`
 
 This equation depends on the rate of change of current, not voltage.
 
@@ -621,20 +585,11 @@ It includes:
 
 The effective voltage across a cell is:
 
-[
-V_{\text{effective}}
-====================
-
-## V_{\text{DD,local}}
-
-V_{\text{SS,local}}
-]
+`V_effective = local VDD - local VSS`
 
 A local VDD of `0.74 V` and local VSS of `0.04 V` provide an effective supply of:
 
-[
-0.74-0.04=0.70\text{ V}
-]
+`0.74 V - 0.04 V = 0.70 V`
 
 Poor power integrity can change both data-path and clock-path delay.
 
@@ -646,14 +601,7 @@ A wider power stripe improves power integrity by lowering resistance and increas
 
 Metal density is the percentage of a checking region occupied by metal.
 
-[
-\text{Metal Density}
-====================
-
-\frac{\text{Metal Area}}
-{\text{Window Area}}
-\times100%
-]
+`Metal Density = (Metal Area / Window Area) × 100%`
 
 Density is checked using local sliding windows because a legal whole-chip average can hide local sparse or dense regions.
 
@@ -870,8 +818,8 @@ The core principle is:
 
 ### IR Drop versus EM
 
-* IR drop: voltage-delivery problem governed by (V=IR)
-* EM: reliability problem governed by (J=I/A)
+* IR drop: voltage-delivery problem governed by `V = I × R`
+* EM: reliability problem governed by `J = I / A`
 
 ### Static versus Dynamic IR Drop
 
