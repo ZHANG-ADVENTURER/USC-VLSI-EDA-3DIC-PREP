@@ -1,0 +1,887 @@
+# Day 31 Daily Log
+
+## Topic
+
+RTL-to-GDSII Flow Integration
+
+## What I Learned
+
+Today I integrated the complete digital ASIC flow from specification to tapeout.
+
+The simplified flow is:
+
+```text
+Specification
+→ Microarchitecture
+→ RTL Design
+→ Functional Verification
+→ Logic Synthesis
+→ Floorplanning
+→ Power Planning
+→ Placement
+→ Clock Tree Synthesis
+→ Routing
+→ Parasitic Extraction
+→ Signoff
+→ GDSII / OASIS
+→ Tapeout
+```
+
+The most important lesson is that RTL-to-GDSII is not a simple one-way sequence.
+
+A later-stage problem may be caused by an earlier-stage decision.
+
+For example:
+
+```text
+Poor macro placement
+→ narrow routing channel
+→ routing congestion
+→ long routing detour
+→ larger parasitic delay
+→ setup violation
+```
+
+Therefore, engineers must identify the root cause instead of repeatedly optimizing only the stage where the violation appears.
+
+I learned that the complete flow contains several abstraction levels.
+
+The three main design representations are:
+
+| Representation     | Main Content                                     |
+| ------------------ | ------------------------------------------------ |
+| RTL                | Register-transfer behavior                       |
+| Gate-level netlist | Standard-cell instances and logical connectivity |
+| GDSII/OASIS        | Final manufacturing geometry                     |
+
+中文理解：
+
+* RTL 说明逻辑和寄存器如何工作。
+* Gate-level netlist 说明具体使用哪些 standard cells，以及它们如何连接。
+* GDSII/OASIS 说明这些 cells、wires 和 vias 在版图上的最终制造图形。
+
+These three representations describe the same chip at different abstraction levels.
+
+I learned the difference among specification, microarchitecture, and RTL.
+
+### Specification
+
+The specification defines what the design must do.
+
+It may include:
+
+* Functional behavior
+* Interface protocol
+* Data width
+* Clock-frequency target
+* Latency
+* Throughput
+* Power target
+* Reset behavior
+
+Specification 关注的是“需求是什么”，而不是“内部结构怎么搭建”。
+
+### Microarchitecture
+
+Microarchitecture defines the internal hardware organization used to implement the specification.
+
+It may define:
+
+* Pipeline stages
+* Datapath structure
+* Control FSM
+* Register organization
+* FIFO depth
+* Arbitration method
+* Parallel or sequential execution
+
+Different microarchitectures can implement the same specification.
+
+For example, the same multiplication requirement may be implemented using:
+
+* A combinational multiplier
+* A multi-cycle iterative multiplier
+* A pipelined multiplier
+
+These implementations have different tradeoffs in:
+
+* Power
+* Performance
+* Area
+* Latency
+* Throughput
+
+### RTL
+
+RTL describes the selected microarchitecture using synthesizable hardware code.
+
+RTL specifies:
+
+* Which values are stored
+* When registers update
+* How combinational logic calculates results
+* How state transitions occur
+* How interfaces exchange data
+
+The relationship is:
+
+```text
+Specification
+→ defines what must be done
+
+Microarchitecture
+→ defines the hardware structure
+
+RTL
+→ describes that structure in synthesizable code
+```
+
+I learned the roles of functional verification, LEC, and LVS.
+
+| Verification            | Comparison Target               |
+| ----------------------- | ------------------------------- |
+| Functional verification | RTL versus specification        |
+| LEC                     | Gate-level netlist versus RTL   |
+| LVS                     | Extracted layout versus netlist |
+
+This distinction is critical.
+
+Suppose:
+
+```text
+Specification: y = a + b
+Buggy RTL:     y = a - b
+Netlist:       correctly implements y = a - b
+Layout:        correctly implements the netlist
+```
+
+Possible results are:
+
+* Functional verification: should fail
+* LEC: may pass
+* LVS: may pass
+
+The final chip can still be functionally wrong because LEC and LVS only check consistency between abstraction levels.
+
+中文重点：
+
+> 一层一层保持一致，不代表最开始的 specification 就被正确实现了。
+
+I learned the three primary synthesis inputs:
+
+* RTL
+* Timing constraints
+* Standard-cell library
+
+The synthesis flow is approximately:
+
+```text
+Analyze
+→ Elaborate
+→ Technology-independent optimization
+→ Technology mapping
+→ Post-mapping optimization
+→ Gate-level netlist
+```
+
+### Analyze
+
+Analyze reads and checks RTL files.
+
+It processes:
+
+* Syntax
+* Module definitions
+* Parameters
+* Source dependencies
+
+### Elaborate
+
+Elaborate builds the complete logical design from the top module.
+
+It resolves:
+
+* Module instances
+* Parameter values
+* Generate blocks
+* Signal widths
+* Hierarchy
+* Connectivity
+
+中文理解：
+
+* Analyze：理解每个 RTL 文件定义了什么。
+* Elaborate：从 top module 开始，把整个设计结构展开并连接起来。
+
+I learned that the same RTL may produce different netlists under different constraints.
+
+A tight clock constraint may cause synthesis to use:
+
+* Stronger cells
+* More buffers
+* Different logic structures
+* More area
+* More power
+
+A relaxed clock constraint may allow:
+
+* Smaller cells
+* Fewer buffers
+* Lower power
+* Lower area
+
+The synthesis tool does not always choose the strongest available cell because stronger cells usually cause:
+
+* Larger area
+* Higher leakage
+* Higher dynamic power
+* Larger input capacitance
+* More load on the previous stage
+
+The correct goal is to use enough drive strength to meet timing, not maximum drive strength everywhere.
+
+I learned the difference between `.lib` and LEF.
+
+| `.lib`            | LEF                        |
+| ----------------- | -------------------------- |
+| Logical function  | Cell boundary              |
+| Timing arcs       | Cell dimensions            |
+| Delay             | Pin locations              |
+| Input capacitance | Pin shapes                 |
+| Setup and hold    | Routing obstruction        |
+| Power behavior    | Placement-site information |
+
+中文记忆：
+
+* `.lib`：这个 cell 做什么、跑多快、功耗和电气特性如何。
+* LEF：这个 cell 多大、pin 在哪里、routing 如何接入。
+
+I learned that floorplanning defines the global physical structure.
+
+Floorplanning determines:
+
+* Die size
+* Core size
+* Macro locations
+* I/O or port locations
+* Halos
+* Channels
+* Placement blockages
+* Routing blockages
+* Initial power-grid strategy
+
+Macros are positioned during floorplanning because they have:
+
+* Large fixed dimensions
+* Fixed pin locations
+* Routing blockages
+* Large power demand
+* Strong influence on wirelength and congestion
+
+I learned the difference between halo and channel.
+
+* Halo is a keepout area around one macro.
+* Channel is the open space between two macros.
+
+A narrow macro channel may create severe routing congestion that detailed routing cannot fix. In that case, the flow may need to return to floorplanning and move the macros.
+
+I learned that extremely high core utilization may cause:
+
+* Placement congestion
+* Routing congestion
+* Insufficient CTS-buffer space
+* Limited timing-optimization space
+* Poor ECO flexibility
+* Pin-access problems
+
+Utilization is therefore a tradeoff. It should not simply be maximized.
+
+I learned the placement flow:
+
+```text
+Global Placement
+→ Legalization
+→ Detailed Placement
+```
+
+### Global Placement
+
+Global placement assigns approximate locations to standard cells.
+
+Cells may temporarily overlap or remain off legal sites.
+
+Its goals include:
+
+* Timing optimization
+* Wirelength reduction
+* Congestion control
+* Density balance
+
+### Legalization
+
+Legalization actively moves cells into valid locations.
+
+It ensures:
+
+* Cells align to placement rows.
+* Cells occupy legal sites.
+* Cells do not overlap.
+* Cells respect blockages.
+* Cells stay inside legal regions.
+
+Legalization is not only a check. It modifies the placement to make it legal.
+
+### Detailed Placement
+
+Detailed placement performs small local improvements after legalization.
+
+Possible operations include:
+
+* Cell swapping
+* Local movement
+* Row reordering
+* Small displacement
+* Local timing improvement
+* Local congestion repair
+
+I learned that placement must leave whitespace.
+
+Whitespace is needed for:
+
+* CTS buffers
+* Timing buffers
+* Hold-fix cells
+* Cell upsizing
+* ECO cells
+* Decap cells
+* Physical-only cells
+* Congestion relief
+
+Routing mainly uses metal layers above standard cells, so whitespace is not only reserved for wires. It provides room for later cell insertion and movement.
+
+I learned that timing-driven placement tries to keep critical cells close.
+
+```text
+Shorter critical-path wire
+→ lower resistance and capacitance
+→ lower interconnect delay
+→ earlier data arrival
+→ better setup slack
+```
+
+However, concentrating too many cells in one area may increase congestion, so placement must balance timing and routing capacity.
+
+I learned that CTS builds the physical clock network.
+
+CTS inserts:
+
+* Clock buffers
+* Clock inverters
+* Clock branches
+* Clock routing structures
+
+Its goals include controlling:
+
+* Clock latency
+* Clock skew
+* Clock transition
+* Fanout
+* Clock power
+* Routing congestion
+
+One clock source cannot directly drive thousands of flip-flops because that would create:
+
+* Very high fanout
+* Large capacitive load
+* Slow transition
+* Large delay
+* High dynamic power
+* Difficult routing
+
+I learned the difference between clock latency and clock skew.
+
+### Clock Latency
+
+Clock latency is the time required for the clock edge to travel from the source to one sink.
+
+[
+\text{Clock Latency}
+====================
+
+## T_{\text{sink arrival}}
+
+T_{\text{source launch}}
+]
+
+### Clock Skew
+
+Clock skew is the difference in clock arrival time between two sinks.
+
+[
+\text{Skew}
+===========
+
+## T_{\text{capture clock}}
+
+T_{\text{launch clock}}
+]
+
+中文记忆：
+
+* Latency：clock 到一个 sink 花了多久。
+* Skew：clock 到两个 sinks 的时间差。
+
+For a launch-to-capture path:
+
+* Positive skew means the capture clock arrives later.
+* Positive skew usually helps setup.
+* Positive skew may worsen hold.
+* Negative skew usually worsens setup.
+* Negative skew may improve hold.
+
+CTS does not always target mathematically exact zero skew.
+
+Exact zero skew may require:
+
+* Too many buffers
+* More power
+* More area
+* More routing resources
+* More congestion
+
+Controlled skew may also be used intentionally to improve timing. This is called useful skew.
+
+I learned that routing converts logical nets into exact physical geometry.
+
+The netlist may specify:
+
+```text
+U1/Z → U2/A
+```
+
+Routing determines:
+
+* Which metal layers are used
+* The exact wire path
+* The routing tracks
+* The wire width
+* The spacing
+* The via locations
+* The actual wirelength
+
+The netlist tells the tool what must be connected. Routing decides how the connection is physically implemented.
+
+I learned the difference between global routing and detailed routing.
+
+### Global Routing
+
+Global routing:
+
+* Plans approximate routing paths
+* Estimates routing demand
+* Allocates routing capacity
+* Identifies congestion hotspots
+* Selects approximate layer usage
+
+中文理解：
+
+> Global routing 决定线路大概经过哪些区域。
+
+### Detailed Routing
+
+Detailed routing:
+
+* Assigns exact tracks
+* Creates exact wire geometry
+* Places exact vias
+* Connects pins physically
+* Follows design rules
+
+中文理解：
+
+> Detailed routing 决定具体走哪一条 track，via 放在哪个坐标。
+
+I learned that vias provide vertical electrical connections between adjacent metal layers.
+
+```text
+M2
+ │
+Via
+ │
+M3
+```
+
+A via has:
+
+* Resistance
+* Capacitance
+* Enclosure rules
+* Spacing rules
+* Current-density limits
+
+The goal is not to eliminate all vias. Vias are necessary for changing layers and accessing lower-resistance routing paths.
+
+I learned that post-route timing is more accurate than placement-stage timing.
+
+After routing, the tool knows:
+
+* Actual wirelength
+* Actual routing layers
+* Via count
+* Routing detours
+* Nearby aggressor nets
+* Extracted resistance and capacitance
+
+A routing detour may create:
+
+```text
+Longer wire
+→ larger resistance and capacitance
+→ larger interconnect delay
+→ later data arrival
+→ worse setup slack
+```
+
+I learned that severe routing congestion may require returning to an earlier stage.
+
+For example:
+
+```text
+Macro channel too narrow
+→ insufficient routing capacity
+→ detailed routing cannot complete
+→ return to floorplanning
+→ move macros or enlarge channel
+```
+
+Detailed routing cannot create new physical routing capacity if the floorplan structurally removes the required space.
+
+I learned that parasitic extraction generates electrical models from routed geometry.
+
+Typical extracted parasitics include:
+
+* Wire resistance
+* Via resistance
+* Ground capacitance
+* Coupling capacitance
+
+The main output is often SPEF.
+
+I learned that PPA estimates become more accurate through the flow.
+
+### Synthesis
+
+Uses cell delays and estimated interconnect.
+
+### Placement
+
+Uses cell locations and estimated wirelength.
+
+### CTS
+
+Adds clock buffers, clock latency, skew, and clock power.
+
+### Routing
+
+Adds real route length, vias, and more realistic parasitics.
+
+### Signoff
+
+Uses final extraction and qualified analysis models.
+
+中文重点：
+
+> 越靠近 GDSII，数据越真实，但修改成本也越高。
+
+## What I Built
+
+I completed the RTL-to-GDSII Flow Integration learning module.
+
+Created files:
+
+* `02_physical_design_notes/08_rtl_to_gds/notes/rtl_to_gds.md`
+* `02_physical_design_notes/08_rtl_to_gds/README.md`
+* `daily-log/Day31.md`
+
+The module connects:
+
+* Front-end design
+* Design verification
+* Synthesis
+* Floorplanning
+* Placement
+* CTS
+* Routing
+* Extraction
+* Signoff
+* Tapeout
+
+## Key Concepts
+
+### Specification
+
+Defines what the chip must do.
+
+### Microarchitecture
+
+Defines the internal hardware structure used to implement the specification.
+
+### RTL
+
+Describes register-transfer behavior and synthesizable logic.
+
+### Functional Verification
+
+Checks RTL behavior against the specification.
+
+### LEC
+
+Checks whether the synthesized netlist is logically equivalent to RTL.
+
+### LVS
+
+Checks whether the extracted layout matches the intended netlist.
+
+### Gate-Level Netlist
+
+Contains standard-cell instances and logical pin connectivity.
+
+### Standard-Cell Library
+
+Provides available cells and their logical, timing, power, and electrical models.
+
+### `.lib`
+
+Contains logical and electrical cell information.
+
+### LEF
+
+Contains abstract physical cell and routing information.
+
+### Analyze
+
+Reads and checks RTL source definitions.
+
+### Elaborate
+
+Builds the complete logical hierarchy from the top module.
+
+### Floorplanning
+
+Defines die, core, macros, channels, halos, blockages, and global physical structure.
+
+### Core Utilization
+
+The ratio of occupied standard-cell area to available placement area.
+
+### Halo
+
+A keepout region around a macro.
+
+### Channel
+
+The physical space between macros.
+
+### Global Placement
+
+Creates approximate standard-cell positions.
+
+### Legalization
+
+Moves cells onto valid rows and removes overlap.
+
+### Detailed Placement
+
+Performs small legal placement improvements.
+
+### Whitespace
+
+Unoccupied placement space reserved for future optimization and ECO operations.
+
+### CTS
+
+Builds the physical clock-distribution network.
+
+### Clock Latency
+
+Clock travel time from the source to one sink.
+
+### Clock Skew
+
+Clock-arrival-time difference between two sinks.
+
+### Useful Skew
+
+Intentional controlled skew used to improve timing.
+
+### Global Routing
+
+Plans approximate routes and allocates routing resources.
+
+### Detailed Routing
+
+Creates exact legal wires and vias.
+
+### Via
+
+A vertical conductive connection between adjacent metal layers.
+
+### SPEF
+
+Stores extracted interconnect parasitics.
+
+### GDSII / OASIS
+
+Stores the final manufacturing geometry.
+
+### Feedback Loop
+
+A process in which a later-stage violation requires returning to an earlier design stage.
+
+### Root-Cause Analysis
+
+Identifying the actual origin of a violation rather than only modifying the stage where it appears.
+
+## Problems / Fixes
+
+### Problem 1: Confused specification with logic architecture
+
+I initially described specification as the logic architecture.
+
+Fix:
+
+Specification defines the required behavior and targets. Microarchitecture defines the hardware organization used to meet those requirements.
+
+### Problem 2: Used a gate-level example as a microarchitecture example
+
+I used NAND and OR-plus-inverter as an example of different microarchitectures.
+
+Fix:
+
+Different gate implementations are not necessarily different microarchitectures. Better examples include combinational, iterative, and pipelined multipliers.
+
+### Problem 3: Assumed buggy RTL would cause LEC to fail
+
+I initially thought LEC would fail if the RTL implemented the wrong function.
+
+Fix:
+
+LEC compares the netlist against RTL. If synthesis correctly preserves buggy RTL behavior, LEC may pass.
+
+Functional verification is responsible for comparing RTL against the specification.
+
+### Problem 4: Described `.lib` as cell combination information
+
+Fix:
+
+`.lib` contains logical and electrical cell behavior, including function, delay, timing arcs, input capacitance, setup/hold, and power data.
+
+LEF contains abstract physical geometry.
+
+### Problem 5: Confused global placement with macro placement
+
+I initially described global placement as arranging the regions for macros.
+
+Fix:
+
+Macro placement belongs mainly to floorplanning. Global placement distributes standard cells approximately across the core.
+
+### Problem 6: Treated legalization as only checking placement
+
+Fix:
+
+Legalization actively moves standard cells onto valid rows and sites, removes overlap, and enforces placement legality.
+
+### Problem 7: Thought placement whitespace was mainly for routing
+
+Fix:
+
+Whitespace is mainly required for later cell insertion, movement, CTS, hold fixing, upsizing, ECOs, decaps, and congestion relief.
+
+### Problem 8: Misdefined clock skew
+
+I described clock skew as the difference between expected and actual clock arrival.
+
+Fix:
+
+Clock skew is the difference in clock arrival time between two sinks.
+
+### Problem 9: Reversed the setup effect of positive skew
+
+I initially said positive skew improves hold.
+
+Fix:
+
+Positive skew usually improves setup and may worsen hold.
+
+### Problem 10: Described via only as a vertical structure
+
+Fix:
+
+A via is a vertical conductive connection between two adjacent metal layers.
+
+### Problem 11: Did not fully explain why LEC and LVS cannot prove functional correctness
+
+Fix:
+
+LEC and LVS verify consistency between design representations. They do not compare the original RTL directly against the specification.
+
+## Connection to VLSI / EDA / 3D IC
+
+RTL-to-GDSII integration is the foundation of digital VLSI implementation.
+
+For RTL Design Engineers, this flow explains how coding and microarchitecture decisions later affect:
+
+* Timing
+* Area
+* Power
+* Congestion
+* Routability
+
+For Design Verification Engineers, it clarifies that functional verification must detect errors before those errors are preserved by synthesis and physical implementation.
+
+For Physical Design Engineers, it connects:
+
+* Floorplanning
+* Placement
+* CTS
+* Routing
+* Extraction
+* Timing closure
+* Signoff
+
+For STA Engineers, it explains why timing data becomes progressively more accurate from synthesis to placement, CTS, routing, and final extraction.
+
+For EDA Engineers, the complete flow provides the context for algorithms used in:
+
+* Synthesis
+* Placement
+* Clock-tree construction
+* Routing
+* Parasitic extraction
+* STA
+* DRC and LVS
+* EM and IR-drop analysis
+
+For 3D IC design, similar abstraction and handoff principles extend across dies and packages.
+
+Additional concerns include:
+
+* Die-to-die interconnect
+* Microbumps
+* TSVs
+* Interposers
+* Cross-die timing
+* Package parasitics
+* Thermal interaction
+* Multi-die power delivery
+
+A routing or timing problem in a 3D IC may originate not only from one die’s placement, but also from interposer routing, bump planning, TSV placement, or package-level power delivery.
+
+## One Sentence Summary
+
+The RTL-to-GDSII flow progressively transforms specification into verified manufacturing geometry, while feedback loops and root-cause analysis connect logical design decisions with physical timing, congestion, power, and reliability results.
+
+## Next Step
+
+Review the most important files used throughout the RTL-to-GDSII flow and learn exactly which stage reads or generates files such as RTL, SDC, `.lib`, LEF, netlist, DEF, SPEF, SDF, GDSII, and OASIS.
