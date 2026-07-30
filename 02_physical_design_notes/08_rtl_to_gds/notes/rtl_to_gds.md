@@ -457,11 +457,6 @@ It resolves:
 * Design hierarchy
 * Connectivity
 
-中文理解：
-
-* Analyze：读懂每个 RTL 文件中定义了什么
-* Elaborate：从 top module 出发构建完整设计结构
-
 ### Technology-Independent Optimization
 
 Simplifies logic before selecting target cells.
@@ -558,10 +553,10 @@ The `.lib` and LEF files describe different views of the same standard cells.
 | Setup and hold    | Placement sites            |
 | Power behavior    | Abstract physical geometry |
 
-中文记忆：
+Practical distinction:
 
-* `.lib`：cell 做什么、跑多快、耗多少电
-* LEF：cell 多大、pin 在哪里、routing 如何接入
+* `.lib`: what the cell does, how fast it operates, and how much power it consumes
+* LEF: how large the cell is, where its pins are located, and how routing can access it
 
 Technology LEF also provides:
 
@@ -594,10 +589,6 @@ It determines:
 
 Floorplanning does not place every standard cell individually.
 
-中文理解：
-
-> Floorplanning 类似城市总体规划，先决定大型区域、道路空间和不能占用的位置。
-
 ---
 
 ## 18. Die Area and Core Area
@@ -628,13 +619,7 @@ The core is inside the die, but the die includes more than the core.
 
 A simplified core-utilization expression is:
 
-[
-\text{Utilization}
-==================
-
-\frac{\text{Standard-cell area}}
-{\text{Available placement area}}
-]
+`Utilization = Standard-cell area / Available placement area`
 
 Extremely high utilization may cause:
 
@@ -703,10 +688,10 @@ It may be required for:
 * Power routing
 * Buffer placement
 
-中文区分：
+Key distinction:
 
-* Halo：围绕单个 macro 的保护区域
-* Channel：两个 macros 之间的通道
+* Halo: a protected keepout region surrounding one macro
+* Channel: the open routing and placement space between two macros
 
 ---
 
@@ -869,14 +854,7 @@ Placement tools may estimate wirelength using Half-Perimeter Wirelength, or HPWL
 
 For the smallest rectangle containing all pins:
 
-[
-\text{HPWL}
-===========
-
-\text{Rectangle Width}
-+
-\text{Rectangle Height}
-]
+`HPWL = Rectangle Width + Rectangle Height`
 
 HPWL does not include:
 
@@ -964,20 +942,11 @@ A hierarchical clock tree divides the total load among multiple buffers.
 
 Clock latency is the time required for a clock edge to travel from the clock source to one sink.
 
-[
-\text{Clock Latency}
-====================
-
-## \text{Clock Arrival at Sink}
-
-\text{Clock Launch at Source}
-]
+`Clock Latency = Clock Arrival at Sink - Clock Launch at Source`
 
 It is often called insertion delay.
 
-中文记忆：
-
-> Latency 是 clock 到达一个 sink 花费的时间。
+> Latency is the time required for the clock edge to reach one sink from the clock source.
 
 ---
 
@@ -987,18 +956,9 @@ Clock skew is the clock-arrival-time difference between two sinks.
 
 For a launch-to-capture path:
 
-[
-\text{Skew}
-===========
+`Skew = Capture Clock Arrival Time - Launch Clock Arrival Time`
 
-## T_{\text{capture clock}}
-
-T_{\text{launch clock}}
-]
-
-中文记忆：
-
-> Skew 是 clock 到达两个 sinks 的时间差。
+> Skew is the difference between the clock arrival times at two sinks.
 
 ### Positive Skew
 
@@ -1042,12 +1002,10 @@ The goal is acceptable global timing closure, not necessarily zero skew at every
 
 Clock gating disables downstream clock switching in inactive blocks.
 
-```text
 Clock
 → Integrated Clock-Gating Cell
 → Gated Clock
 → Registers
-```
 
 Benefits include lower dynamic power.
 
@@ -1163,9 +1121,7 @@ It determines:
 * Routing capacity
 * Congestion hotspots
 
-中文理解：
-
-> Global routing 先决定线路大致经过哪些区域，还没有精确到具体 track。
+> Global routing first determines the approximate regions that each route should cross. It does not yet assign exact routing tracks.
 
 ---
 
@@ -1228,13 +1184,11 @@ Once physical routing exists, more accurate interconnect parasitics can be calcu
 
 A routing detour may cause:
 
-```text
 Longer wire
 → larger resistance and capacitance
 → larger net delay
 → later data arrival
 → worse setup slack
-```
 
 Post-route timing is more accurate than placement-stage timing because the tool knows:
 
@@ -1369,44 +1323,34 @@ The RTL-to-GDSII flow is iterative.
 
 ### Synthesis Feedback
 
-```text
 Timing failure
 → modify constraints, RTL, or microarchitecture
 → rerun synthesis
-```
 
 ### Placement Feedback
 
-```text
 Placement congestion
 → spread cells or adjust blockages
 → modify floorplan if required
 → rerun placement
-```
 
 ### CTS Feedback
 
-```text
 Poor skew or clock congestion
 → change clock constraints or placement
 → rebuild clock tree
-```
 
 ### Routing Feedback
 
-```text
 Routing detour or DRC issue
 → reroute, change layer, or move cells
-```
 
 ### Signoff Feedback
 
-```text
 Signoff violation
 → implement ECO
 → rerun affected stages
 → regenerate final database
-```
 
 A problem found in a later stage may originate from an earlier stage.
 
@@ -1490,7 +1434,6 @@ Early estimates are useful, but they are not final.
 
 Changes become more expensive later in the flow.
 
-```text
 Early RTL bug
 → relatively easy to modify and verify
 
@@ -1499,7 +1442,6 @@ Post-route bug
 
 Post-tapeout bug
 → may require new masks and fabrication
-```
 
 Therefore:
 

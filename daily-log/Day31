@@ -10,22 +10,20 @@ Today I integrated the complete digital ASIC flow from specification to tapeout.
 
 The simplified flow is:
 
-```text
-Specification
-→ Microarchitecture
-→ RTL Design
-→ Functional Verification
-→ Logic Synthesis
-→ Floorplanning
-→ Power Planning
-→ Placement
-→ Clock Tree Synthesis
-→ Routing
-→ Parasitic Extraction
-→ Signoff
-→ GDSII / OASIS
-→ Tapeout
-```
+> Specification
+> → Microarchitecture
+> → RTL Design
+> → Functional Verification
+> → Logic Synthesis
+> → Floorplanning
+> → Power Planning
+> → Placement
+> → Clock Tree Synthesis
+> → Routing
+> → Parasitic Extraction
+> → Signoff
+> → GDSII / OASIS
+> → Tapeout
 
 The most important lesson is that RTL-to-GDSII is not a simple one-way sequence.
 
@@ -33,14 +31,12 @@ A later-stage problem may be caused by an earlier-stage decision.
 
 For example:
 
-```text
-Poor macro placement
-→ narrow routing channel
-→ routing congestion
-→ long routing detour
-→ larger parasitic delay
-→ setup violation
-```
+> Poor macro placement
+> → narrow routing channel
+> → routing congestion
+> → long routing detour
+> → larger parasitic delay
+> → setup violation
 
 Therefore, engineers must identify the root cause instead of repeatedly optimizing only the stage where the violation appears.
 
@@ -54,11 +50,11 @@ The three main design representations are:
 | Gate-level netlist | Standard-cell instances and logical connectivity |
 | GDSII/OASIS        | Final manufacturing geometry                     |
 
-中文理解：
+Practical interpretation:
 
-* RTL 说明逻辑和寄存器如何工作。
-* Gate-level netlist 说明具体使用哪些 standard cells，以及它们如何连接。
-* GDSII/OASIS 说明这些 cells、wires 和 vias 在版图上的最终制造图形。
+* RTL describes how the logic and registers operate.
+* The gate-level netlist identifies the standard cells used and how they are connected.
+* GDSII/OASIS contains the final manufacturable geometry of cells, wires, and vias.
 
 These three representations describe the same chip at different abstraction levels.
 
@@ -79,7 +75,7 @@ It may include:
 * Power target
 * Reset behavior
 
-Specification 关注的是“需求是什么”，而不是“内部结构怎么搭建”。
+The specification focuses on what the design must accomplish, not how the internal hardware is organized.
 
 ### Microarchitecture
 
@@ -125,16 +121,14 @@ RTL specifies:
 
 The relationship is:
 
-```text
-Specification
-→ defines what must be done
-
-Microarchitecture
-→ defines the hardware structure
-
-RTL
-→ describes that structure in synthesizable code
-```
+> Specification
+> → defines what must be done
+>
+> Microarchitecture
+> → defines the hardware structure
+>
+> RTL
+> → describes that structure in synthesizable code
 
 I learned the roles of functional verification, LEC, and LVS.
 
@@ -148,12 +142,10 @@ This distinction is critical.
 
 Suppose:
 
-```text
-Specification: y = a + b
-Buggy RTL:     y = a - b
-Netlist:       correctly implements y = a - b
-Layout:        correctly implements the netlist
-```
+> Specification: y = a + b
+> Buggy RTL:     y = a - b
+> Netlist:       correctly implements y = a - b
+> Layout:        correctly implements the netlist
 
 Possible results are:
 
@@ -163,9 +155,9 @@ Possible results are:
 
 The final chip can still be functionally wrong because LEC and LVS only check consistency between abstraction levels.
 
-中文重点：
+Key point:
 
-> 一层一层保持一致，不代表最开始的 specification 就被正确实现了。
+> Consistency between adjacent abstraction levels does not prove that the original specification was implemented correctly.
 
 I learned the three primary synthesis inputs:
 
@@ -175,14 +167,12 @@ I learned the three primary synthesis inputs:
 
 The synthesis flow is approximately:
 
-```text
-Analyze
-→ Elaborate
-→ Technology-independent optimization
-→ Technology mapping
-→ Post-mapping optimization
-→ Gate-level netlist
-```
+> Analyze
+> → Elaborate
+> → Technology-independent optimization
+> → Technology mapping
+> → Post-mapping optimization
+> → Gate-level netlist
 
 ### Analyze
 
@@ -208,10 +198,10 @@ It resolves:
 * Hierarchy
 * Connectivity
 
-中文理解：
+Practical interpretation:
 
-* Analyze：理解每个 RTL 文件定义了什么。
-* Elaborate：从 top module 开始，把整个设计结构展开并连接起来。
+* Analyze determines what each RTL source file defines.
+* Elaborate starts from the top module and builds the complete connected design hierarchy.
 
 I learned that the same RTL may produce different netlists under different constraints.
 
@@ -251,10 +241,10 @@ I learned the difference between `.lib` and LEF.
 | Setup and hold    | Routing obstruction        |
 | Power behavior    | Placement-site information |
 
-中文记忆：
+Practical distinction:
 
-* `.lib`：这个 cell 做什么、跑多快、功耗和电气特性如何。
-* LEF：这个 cell 多大、pin 在哪里、routing 如何接入。
+* `.lib` describes what a cell does, how fast it operates, and its power and electrical characteristics.
+* LEF describes the cell dimensions, pin locations, and routing-access information.
 
 I learned that floorplanning defines the global physical structure.
 
@@ -298,11 +288,9 @@ Utilization is therefore a tradeoff. It should not simply be maximized.
 
 I learned the placement flow:
 
-```text
-Global Placement
-→ Legalization
-→ Detailed Placement
-```
+> Global Placement
+> → Legalization
+> → Detailed Placement
 
 ### Global Placement
 
@@ -361,13 +349,11 @@ Routing mainly uses metal layers above standard cells, so whitespace is not only
 
 I learned that timing-driven placement tries to keep critical cells close.
 
-```text
-Shorter critical-path wire
-→ lower resistance and capacitance
-→ lower interconnect delay
-→ earlier data arrival
-→ better setup slack
-```
+> Shorter critical-path wire
+> → lower resistance and capacitance
+> → lower interconnect delay
+> → earlier data arrival
+> → better setup slack
 
 However, concentrating too many cells in one area may increase congestion, so placement must balance timing and routing capacity.
 
@@ -404,32 +390,18 @@ I learned the difference between clock latency and clock skew.
 
 Clock latency is the time required for the clock edge to travel from the source to one sink.
 
-[
-\text{Clock Latency}
-====================
-
-## T_{\text{sink arrival}}
-
-T_{\text{source launch}}
-]
+**Clock Latency = Sink Clock Arrival Time - Source Clock Launch Time**
 
 ### Clock Skew
 
 Clock skew is the difference in clock arrival time between two sinks.
 
-[
-\text{Skew}
-===========
+**Clock Skew = Capture Clock Arrival Time - Launch Clock Arrival Time**
 
-## T_{\text{capture clock}}
+Practical distinction:
 
-T_{\text{launch clock}}
-]
-
-中文记忆：
-
-* Latency：clock 到一个 sink 花了多久。
-* Skew：clock 到两个 sinks 的时间差。
+* Latency is the travel time from the clock source to one sink.
+* Skew is the clock-arrival-time difference between two sinks.
 
 For a launch-to-capture path:
 
@@ -455,9 +427,7 @@ I learned that routing converts logical nets into exact physical geometry.
 
 The netlist may specify:
 
-```text
-U1/Z → U2/A
-```
+> U1/Z → U2/A
 
 Routing determines:
 
@@ -483,9 +453,9 @@ Global routing:
 * Identifies congestion hotspots
 * Selects approximate layer usage
 
-中文理解：
+Practical interpretation:
 
-> Global routing 决定线路大概经过哪些区域。
+> Global routing determines the approximate regions and routing resources used by a net.
 
 ### Detailed Routing
 
@@ -497,19 +467,17 @@ Detailed routing:
 * Connects pins physically
 * Follows design rules
 
-中文理解：
+Practical interpretation:
 
-> Detailed routing 决定具体走哪一条 track，via 放在哪个坐标。
+> Detailed routing selects exact tracks and exact via locations.
 
 I learned that vias provide vertical electrical connections between adjacent metal layers.
 
-```text
-M2
- │
-Via
- │
-M3
-```
+> M2
+>  │
+> Via
+>  │
+> M3
 
 A via has:
 
@@ -534,25 +502,21 @@ After routing, the tool knows:
 
 A routing detour may create:
 
-```text
-Longer wire
-→ larger resistance and capacitance
-→ larger interconnect delay
-→ later data arrival
-→ worse setup slack
-```
+> Longer wire
+> → larger resistance and capacitance
+> → larger interconnect delay
+> → later data arrival
+> → worse setup slack
 
 I learned that severe routing congestion may require returning to an earlier stage.
 
 For example:
 
-```text
-Macro channel too narrow
-→ insufficient routing capacity
-→ detailed routing cannot complete
-→ return to floorplanning
-→ move macros or enlarge channel
-```
+> Macro channel too narrow
+> → insufficient routing capacity
+> → detailed routing cannot complete
+> → return to floorplanning
+> → move macros or enlarge channel
 
 Detailed routing cannot create new physical routing capacity if the floorplan structurally removes the required space.
 
@@ -589,9 +553,9 @@ Adds real route length, vias, and more realistic parasitics.
 
 Uses final extraction and qualified analysis models.
 
-中文重点：
+Key point:
 
-> 越靠近 GDSII，数据越真实，但修改成本也越高。
+> Data becomes more physically accurate closer to GDSII, but design changes also become more expensive.
 
 ## What I Built
 

@@ -65,7 +65,6 @@ The module covers the following major stages:
 
 The complete simplified flow is:
 
-```text
 Specification
 → Microarchitecture
 → RTL Design
@@ -80,7 +79,6 @@ Specification
 → Signoff
 → GDSII / OASIS
 → Tapeout
-```
 
 Important abstraction distinctions include:
 
@@ -127,14 +125,12 @@ Examples include:
 
 A later-stage problem may originate from an earlier stage. For example:
 
-```text
 Poor macro placement
 → narrow routing channel
 → congestion
 → routing detour
 → larger parasitics
 → setup violation
-```
 
 Therefore, successful RTL-to-GDSII closure depends on root-cause analysis rather than repeatedly optimizing only the stage where the problem was first observed.
 
