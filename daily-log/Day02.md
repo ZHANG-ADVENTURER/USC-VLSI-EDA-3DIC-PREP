@@ -1,3 +1,5 @@
+# Day 02 Daily Log
+
 ## Topic
 
 HDLBits Verilog Basics: Basic Gates, Declaring Wires, and the 7458 Chip

@@ -1,3 +1,5 @@
+# Day 01 Daily Log
+
 ## Topic
 
 Today's topic: Basic Verilog simulation workflow using a 2-input AND gate.
