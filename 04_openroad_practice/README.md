@@ -36,6 +36,7 @@ This module analyzes an official OpenROAD-flow-scripts baseline. It is not an in
 | `04_screenshots/day39_floorplan_placement/` | Contains floorplan, row, PDN, placement, and density evidence. |
 | `04_screenshots/day40_cts_routing/` | Contains clock-tree connectivity, congestion, and detailed-routing evidence. |
 | `05_ppa_summary/openroad-ppa-table.md` | Consolidates final performance, power, area, routing, clock, IR-drop, handoff, and signoff-boundary results. |
+| [`ARTIFACTS.md`](ARTIFACTS.md) | Distinguishes repository-stored evidence, unpreserved ORFS outputs, and historical run-environment paths. |
 
 Related daily logs are stored separately under the repository-level `daily-log/` directory.
 
@@ -125,7 +126,7 @@ The final power-grid report gives a worst VDD IR drop of 5.93 mV and a worst VSS
 
 ## Final Handoff
 
-The final handoff set includes:
+The original ORFS run generated the following final handoff set, which is referenced in the analysis but is not stored in this repository:
 
 - `6_final.v`
 - `6_final.sdc`
@@ -134,7 +135,7 @@ The final handoff set includes:
 - `6_final.odb`
 - `6_final.gds`
 
-The logical netlist preserves functional and clock-tree connectivity but excludes physical-only filler and tap cells. The DEF and ODB preserve the complete physical implementation.
+In the original run, the logical netlist preserved functional and clock-tree connectivity but excluded physical-only filler and tap cells. The DEF and ODB preserved the physical implementation. See [`ARTIFACTS.md`](ARTIFACTS.md) for the boundary between stored evidence and unpreserved run outputs.
 
 The available results support baseline timing, routing, antenna, and static power-grid conclusions. They do not establish foundry signoff DRC, LVS, ERC, electromigration, dynamic IR drop, multi-mode multi-corner timing, package-aware analysis, or tapeout readiness.
 
@@ -148,4 +149,4 @@ The module uses the official Nangate45 GCD example design and focuses on physica
 
 No simulation waveform was generated for this module.
 
-The primary evidence consists of OpenROAD logs, reports, OpenDB checkpoints, DEF, SPEF, GDSII, final PPA metrics, and GUI screenshots.
+The evidence stored here consists of analysis notes and GUI screenshots derived from the original run. Raw logs, OpenDB checkpoints, DEF, SPEF, GDSII, and other final run outputs were not preserved in this repository.

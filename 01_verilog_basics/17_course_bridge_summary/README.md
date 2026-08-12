@@ -6,32 +6,32 @@ EE457 / EE560L Course Bridge Summary
 
 This project summarizes how the completed summer digital-design work prepares for USC EE457 and EE560L.
 
-It connects the previous Verilog, FSM, FIFO, register-file, handshake, memory-interface, pipeline, and verification projects with course preparation, VLSI/EDA study, and entry-level digital-design career skills.
+It connects implemented Verilog, FSM, FIFO, register-file, and verification projects—together with conceptual handshake, memory-interface, and pipeline study—to course preparation, VLSI/EDA study, and entry-level digital-design skills.
 
-The summary also defines the current capability boundary. The completed work provides a practical RTL and digital-system foundation, while synthesis, Static Timing Analysis, RTL-to-GDS implementation, and OpenROAD remain part of the next learning stage.
+The summary defines the capability boundary at the time this RTL module was completed. Later repository modules now document Physical Design, Static Timing Analysis, and educational OpenROAD implementation analysis.
 
 ## Files
 
 | File / Folder | Description |
 |---|---|
 | `notes/` | Contains the course preparation summary |
-| `notes/ee457-ee560-prep-summary.md` | Connects completed projects with EE457, EE560L, VLSI, EDA, STA, and career preparation |
+| [`notes/ee457-ee560-prep-summary.md`](notes/ee457-ee560-prep-summary.md) | Connects completed projects with EE457, EE560L, VLSI, EDA, STA, and career preparation |
 | `README.md` | Provides an overview of the project |
 
 ## Module Description
 
 This project does not implement a new Verilog module.
 
-It organizes the completed digital-design projects into four major preparation areas:
+It organizes the implemented projects and conceptual preparation into four major areas:
 
 | Preparation Area | Main Topics |
 |---|---|
 | RTL and Digital Logic | Gates, multiplexers, decoders, full adder, ALU, bit width, carry, and overflow |
 | Sequential and Control Design | Flip-flops, counters, shift registers, FSMs, reset, and state transitions |
-| Data Movement and Interfaces | FIFO, register file, valid/ready handshake, memory interface, and pipeline |
+| Data Movement and Interfaces | Implemented FIFO and register file; conceptual valid/ready, memory-interface, and pipeline study |
 | Verification and Debugging | Testbenches, expected-value checking, PASS/FAIL output, VCD generation, and waveform analysis |
 
-The strongest EE457 preparation areas include:
+The strongest EE457 preparation topics include:
 
 - Datapath and control organization
 - Registers and register-transfer behavior
@@ -40,7 +40,7 @@ The strongest EE457 preparation areas include:
 - Memory-interface awareness
 - Pipeline stages, throughput, and latency
 
-The strongest EE560L preparation areas include:
+The strongest EE560L preparation areas include implemented RTL and verification work plus conceptual interface study:
 
 - Verilog RTL implementation
 - Testbench construction
@@ -66,7 +66,7 @@ The summary is based on evidence from previously completed projects, including:
 - Technical notes
 - Daily logs
 
-The project mapping was reviewed to ensure that completed work was described as implemented or verified, while unfinished topics were described only as future preparation.
+The project mapping distinguishes implemented and verified designs from topics supported only by conceptual notes.
 
 ## Waveform
 

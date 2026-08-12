@@ -11,7 +11,7 @@ The notes cover the synthesis flow, standard-cell library views, technology mapp
 | File / Folder | Description |
 |---|---|
 | `notes/` | Detailed synthesis and standard-cell study notes |
-| `notes/synthesis-netlist-standard-cell.md` | Main notes covering synthesis, netlists, timing, libraries, and constraints |
+| [`notes/synthesis-netlist-standard-cell.md`](notes/synthesis-netlist-standard-cell.md) | Main notes covering synthesis, netlists, timing, libraries, and constraints |
 | `README.md` | Project overview and file description |
 
 ## Module Description

@@ -22,7 +22,7 @@ The module also includes setup and hold report-reading practice, timing-repair r
 
 # Files
 
-- `notes/sta_summary.md` — Complete STA reference covering inputs, timing graphs, setup and hold equations, report reading, timing closure, root-cause classification, and interview explanations.
+- [`notes/sta-summary.md`](notes/sta-summary.md) — Complete STA reference covering inputs, timing graphs, setup and hold equations, report reading, timing closure, root-cause classification, and interview explanations.
 - `README.md` — Module overview and file navigation.
 
 # Module Description

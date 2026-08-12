@@ -21,7 +21,7 @@ CTS must balance:
 
 ## Files
 
-* `notes/clock_tree_synthesis.md` — Detailed notes covering CTS concepts, clock-tree construction, skew, latency, clock gating, clock routing, post-CTS optimization, and MMMC analysis.
+* [`notes/cts.md`](notes/cts.md) — Detailed notes covering CTS concepts, clock-tree construction, skew, latency, clock gating, clock routing, post-CTS optimization, and MMMC analysis.
 * `README.md` — Project overview and file description.
 
 ## Module Description

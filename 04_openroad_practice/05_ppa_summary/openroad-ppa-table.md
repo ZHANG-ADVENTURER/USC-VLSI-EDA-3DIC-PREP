@@ -8,14 +8,16 @@
 | Design | GCD |
 | Design configuration | `./designs/nangate45/gcd/config.mk` |
 | Clock constraint | 0.4600 ns |
-| Final database | `/work/results/nangate45/gcd/base/6_final.odb` |
-| Final netlist | `/work/results/nangate45/gcd/base/6_final.v` |
-| Final constraints | `/work/results/nangate45/gcd/base/6_final.sdc` |
-| Final parasitics | `/work/results/nangate45/gcd/base/6_final.spef` |
-| Final physical exchange file | `/work/results/nangate45/gcd/base/6_final.def` |
-| Final layout geometry | `/work/results/nangate45/gcd/base/6_final.gds` |
+| Final database (historical run path) | `/work/results/nangate45/gcd/base/6_final.odb` |
+| Final netlist (historical run path) | `/work/results/nangate45/gcd/base/6_final.v` |
+| Final constraints (historical run path) | `/work/results/nangate45/gcd/base/6_final.sdc` |
+| Final parasitics (historical run path) | `/work/results/nangate45/gcd/base/6_final.spef` |
+| Final physical exchange file (historical run path) | `/work/results/nangate45/gcd/base/6_final.def` |
+| Final layout geometry (historical run path) | `/work/results/nangate45/gcd/base/6_final.gds` |
 
 This summary is based on the official ORFS Nangate45 GCD baseline flow. It is not an independently created physical-design implementation.
+
+The listed `/work/results/...` locations are historical paths from the original ORFS container. The corresponding final outputs are not stored in this repository; see the [artifact manifest](../ARTIFACTS.md).
 
 ## 2. Performance Summary
 

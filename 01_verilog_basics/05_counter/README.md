@@ -19,7 +19,8 @@ Unlike combinational logic, sequential logic does not update immediately when an
 │   └── counter_4bit_tb.vvp
 ├── waves/
 │   ├── counter_4bit.vcd
-│   └── counter_4bit.png
+│   ├── counter_4bit_sim.png
+│   └── counter_4bit_wave.png
 └── README.md
 ```
 
@@ -71,7 +72,7 @@ The testbench uses `expected_count` to compare with the actual `count` output an
 
 ## Waveform
 
-Waveform file: `waves/counter_4bit.png`
+Waveform screenshots: [`waves/counter_4bit_sim.png`](waves/counter_4bit_sim.png) and [`waves/counter_4bit_wave.png`](waves/counter_4bit_wave.png)
 
 The waveform shows that `count` only updates on the rising edge of `clk`.
 

@@ -24,7 +24,7 @@ The broader integration flow included:
 > → Dielectric Liner  
 > → Barrier Layer  
 > → Copper Seed  
-> → Copper Electroplating  
+> → Copper Electroplating Preparation
 > → CMP  
 > → RDL  
 > → Bump / Flip-Chip Integration
@@ -70,8 +70,8 @@ Aspect ratio is:
 
 Two project examples were:
 
-- Approximately 46 µm diameter and 200 µm depth → aspect ratio ≈ 4.35
-- Approximately 46 µm diameter and 83 µm depth → aspect ratio ≈ 1.80
+- Georgia Tech: approximately 46 µm diameter and 200 µm depth → aspect ratio ≈ 4.35
+- University of Washington: approximately 46 µm diameter and 83 µm depth → aspect ratio ≈ 1.80
 
 High aspect ratio can make DRIE, sidewall control, liner conformality, barrier coverage, seed continuity, and copper fill more difficult.
 
@@ -155,7 +155,9 @@ If seed coverage is discontinuous:
 > → Incomplete Fill / Voids / Seams May Form  
 > → Electrical Continuity and Reliability Can Degrade
 
-## 9. Copper Electroplating
+## 9. Copper Electroplating Preparation
+
+The documented project work included preparation for copper electroplating. The fill-defect discussion below describes general process and design risks; it is not a claim that completed copper fill or the listed defects were experimentally demonstrated in this project.
 
 Possible copper-fill defects include:
 
@@ -254,7 +256,7 @@ Without direct measurement, it should not be claimed that the residue definitely
 
 Wafer thickness affects the required TSV depth for through-wafer connectivity.
 
-One wafer was not back-ground to the originally planned thickness.
+The wafer thickness was approximately 200 µm, while the planned thinning target was approximately 100 µm. The wafer was not back-ground to the originally planned thickness.
 
 A design-oriented interpretation is:
 
@@ -369,7 +371,7 @@ The combined perspective is:
 
 A weak description is:
 
-> I used photolithography, DRIE, PECVD, PVD, electroplating, and CMP to fabricate TSV structures.
+> I worked with photolithography, DRIE, PECVD, PVD, copper-electroplating preparation, CMP, and related integration steps for TSV structures.
 
 A stronger description is:
 

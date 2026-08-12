@@ -96,7 +96,7 @@ All test cases passed in the terminal.
 
 Waveform file: `waves/traffic_light_fsm.vcd`
 
-Waveform screenshot: `waves/traffic_light_fsm.png`
+Waveform screenshots: [`waves/traffic_light_fsm_sim.png`](waves/traffic_light_fsm_sim.png) and [`waves/traffic_light_fsm_wave.png`](waves/traffic_light_fsm_wave.png)
 
 The waveform shows that the FSM starts from the North-South green state after reset. Each time `timer_done` is asserted, the FSM moves to the next traffic light state on the next rising edge of `clk`.
 

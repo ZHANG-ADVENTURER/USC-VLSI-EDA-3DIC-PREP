@@ -29,7 +29,7 @@ This module focuses on concepts, stage relationships, files, checks, and enginee
 | Path | Main focus |
 |---|---|
 | `01_rtl_to_gds_flow/` | Complete RTL-to-GDSII flow overview |
-| `02_synthesis_netlist_standard_cells/` | Synthesis, gate-level netlists, standard cells, and timing constraints |
+| [`02_synthesis_netlist_standard_cell/`](02_synthesis_netlist_standard_cell/README.md) | Synthesis, gate-level netlists, standard cells, and timing constraints |
 | `03_floorplanning/` | Die/core definition, macros, rows, blockages, halos, channels, and power planning |
 | `04_placement/` | Standard-cell placement, density, congestion, legalization, and optimization |
 | `05_cts/` | Clock Tree Synthesis, latency, skew, clock buffers, and clock routing |
